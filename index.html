@@ -3,222 +3,281 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>KaironKit | Main Program</title>
+  <title>KaironKit | K-MemoKit</title>
   <meta
     name="description"
-    content="KaironKit의 메인 프로그램 K-MemoKit을 소개하는 홈페이지"
+    content="KaironKit의 메인 프로그램 K-MemoKit을 소개하는 가로 슬라이드형 홈페이지"
+  />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet"
   />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header class="site-header">
-    <div class="container header-inner">
-      <a href="#home" class="logo">
-        <span class="logo-badge">KK</span>
-        <span class="logo-text">KaironKit</span>
-      </a>
+  <div class="bg-deco bg-deco-1"></div>
+  <div class="bg-deco bg-deco-2"></div>
+  <div class="bg-deco bg-deco-3"></div>
 
-      <nav class="nav" id="mainNav">
-        <a href="#home" class="nav-link active">HOME</a>
-        <a href="#program" class="nav-link">MAIN PROGRAM</a>
-        <a href="#support" class="nav-link">SUPPORT</a>
-        <a href="#contact" class="nav-link">CONTACT</a>
-      </nav>
+  <header class="topbar">
+    <a href="#" class="brand" id="brandHome">
+      <span class="brand-mark">K</span>
+      <span class="brand-text">
+        <strong>KaironKit</strong>
+        <small>K-MemoKit Official</small>
+      </span>
+    </a>
 
-      <button class="menu-toggle" id="menuToggle" aria-label="메뉴 열기">
-        ☰
-      </button>
-    </div>
+    <nav class="topnav">
+      <button class="nav-chip active" data-slide="0">HOME</button>
+      <button class="nav-chip" data-slide="1">INTRO</button>
+      <button class="nav-chip" data-slide="2">FEATURES</button>
+      <button class="nav-chip" data-slide="3">SUPPORT</button>
+    </nav>
   </header>
 
-  <main>
-    <!-- HOME -->
-    <section id="home" class="hero-section">
-      <div class="container hero-grid">
-        <div class="hero-text">
-          <p class="eyebrow">KAIRONKIT</p>
-          <h1>
-            쉽고 즐겁게 정리하는
-            <span>나만의 유틸리티</span>
-          </h1>
-          <p class="hero-desc">
-            KaironKit은 일상과 업무를 보다 편리하게 정리할 수 있도록 만든
-            실용적인 소프트웨어 브랜드입니다. 메모, 일정, 즐겨찾기, 계산 기능을
-            하나로 모은 K-MemoKit을 중심으로 직관적이고 깔끔한 사용 경험을 제공합니다.
-          </p>
+  <main class="slider-shell">
+    <button class="side-arrow side-arrow-left" id="prevBtn" aria-label="이전 슬라이드">
+      <span>‹</span>
+    </button>
 
-          <div class="hero-actions">
-            <a href="#program" class="btn btn-primary">MAIN PROGRAM</a>
-            <a href="#support" class="btn btn-secondary">SUPPORT</a>
-          </div>
+    <div class="slider-viewport" id="sliderViewport">
+      <div class="slider-track" id="sliderTrack">
+        <!-- Slide 1 -->
+        <section class="slide slide-home">
+          <div class="slide-inner">
+            <div class="hero-left">
+              <div class="bubble-tag">귀엽고 폭신한 올인원 앱</div>
 
-          <ul class="hero-points">
-            <li>Memo · Schedule · Bookmark · Calculator</li>
-            <li>Simple but powerful desktop workflow</li>
-            <li>Clean design with friendly brand identity</li>
-          </ul>
-        </div>
+              <h1 class="hero-title">
+                <span class="title-small">KaironKit의 대표 프로그램</span>
+                <strong>K-MemoKit</strong>
+              </h1>
 
-        <div class="hero-visual">
-          <div class="hero-image-card">
-            <img src="images/main-character.png" alt="KaironKit 대표 이미지" />
-            <div class="hero-image-glow"></div>
-          </div>
-        </div>
-      </div>
+              <p class="hero-desc">
+                메모, 일정, 즐겨찾기, 계산기를 한곳에 모아
+                쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다.
+                딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는
+                나만의 작은 작업 키트를 목표로 만들었습니다.
+              </p>
 
-      <div class="hero-bg-shape hero-bg-shape-1"></div>
-      <div class="hero-bg-shape hero-bg-shape-2"></div>
-      <div class="hero-bg-shape hero-bg-shape-3"></div>
-    </section>
-
-    <!-- MAIN PROGRAM -->
-    <section id="program" class="section section-light">
-      <div class="container program-grid">
-        <div class="program-info">
-          <p class="eyebrow">MAIN PROGRAM</p>
-          <h2>K-MemoKit</h2>
-          <p class="program-desc">
-            K-MemoKit은 KaironKit의 메인 프로그램입니다.
-            기록과 정리를 더 쉽고 효율적으로 할 수 있도록 구성된 데스크톱 유틸리티로,
-            메모 작성부터 일정 관리, 즐겨찾기 정리, 간단한 계산까지 한곳에서 사용할 수 있습니다.
-          </p>
-
-          <div class="program-tags">
-            <span>Memo</span>
-            <span>Schedule</span>
-            <span>Bookmark</span>
-            <span>Calculator</span>
-          </div>
-
-          <div class="program-buttons">
-            <a
-              href="https://github.com/KaironKit/kmemokit-config/releases/download/v1.0.0/K-MemoKit-Setup.zip"
-              class="btn btn-primary"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Download
-            </a>
-            <a href="#support" class="btn btn-secondary">Support</a>
-          </div>
-        </div>
-
-        <div class="program-preview">
-          <div class="screen-card">
-            <div class="screen-topbar">
-              <span></span><span></span><span></span>
-            </div>
-            <div class="screen-body">
-              <div class="mock-sidebar">
-                <div class="mock-menu active"></div>
-                <div class="mock-menu"></div>
-                <div class="mock-menu"></div>
-                <div class="mock-menu"></div>
+              <div class="hero-actions">
+                <button class="cute-btn primary" data-slide="2">기능 보기</button>
+                <button class="cute-btn secondary" data-slide="3">지원 보기</button>
               </div>
-              <div class="mock-content">
-                <div class="mock-title"></div>
-                <div class="mock-line long"></div>
-                <div class="mock-line"></div>
-                <div class="mock-line short"></div>
 
-                <div class="mock-cards">
-                  <div class="mock-box"></div>
-                  <div class="mock-box"></div>
-                  <div class="mock-box"></div>
+              <div class="mini-points">
+                <span>Memo</span>
+                <span>Schedule</span>
+                <span>Bookmarks</span>
+                <span>Calculator</span>
+              </div>
+            </div>
+
+            <div class="hero-right">
+              <div class="hero-image-wrap">
+                <div class="float-sticker sticker-blue">KaironKit</div>
+                <div class="float-sticker sticker-pink">K-MemoKit</div>
+                <img src="kaironkit-main.png" alt="KaironKit 대표 캐릭터 이미지" class="hero-image" />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Slide 2 -->
+        <section class="slide slide-intro">
+          <div class="slide-inner intro-layout">
+            <div class="panel intro-panel big">
+              <div class="panel-badge blue">INTRO</div>
+              <h2>KaironKit은<br />친근하고 쉬운 도구를 만듭니다</h2>
+              <p>
+                어렵고 복잡한 느낌보다는,
+                누구나 바로 이해할 수 있는 편안한 사용감을 지향합니다.
+                K-MemoKit은 그 시작점이자 대표 프로그램입니다.
+              </p>
+
+              <div class="soft-list">
+                <div class="soft-item">
+                  <strong>쉽게</strong>
+                  <span>처음 봐도 부담 없는 구조</span>
+                </div>
+                <div class="soft-item">
+                  <strong>빠르게</strong>
+                  <span>자주 쓰는 기능을 바로 꺼내 사용</span>
+                </div>
+                <div class="soft-item">
+                  <strong>귀엽게</strong>
+                  <span>부드럽고 친근한 KaironKit 감성</span>
                 </div>
               </div>
             </div>
-          </div>
-          <p class="preview-note">여기에 실제 프로그램 스크린샷으로 교체 가능</p>
-        </div>
-      </div>
-    </section>
 
-    <!-- SUPPORT -->
-    <section id="support" class="section section-navy">
-      <div class="container">
-        <div class="section-head center">
-          <p class="eyebrow">SUPPORT</p>
-          <h2>가볍게 응원해 주세요</h2>
-          <p>
-            KaironKit과 K-MemoKit이 계속 더 좋아질 수 있도록,
-            부담 없는 마음으로 응원해 주시면 큰 힘이 됩니다.
-          </p>
-        </div>
+            <div class="panel-group">
+              <div class="panel small-card">
+                <div class="emoji-ball blue">✍</div>
+                <h3>메모 중심</h3>
+                <p>생각, 기록, 자료 정리를 빠르게 남길 수 있어요.</p>
+              </div>
 
-        <div class="support-grid">
-          <div class="support-card support-card-main">
-            <div class="support-icon">☕</div>
-            <h3>개발자에게 커피 한 잔</h3>
-            <p>
-              작은 응원도 큰 동기가 됩니다.
-              개발과 유지보수를 이어가는 데 따뜻한 힘이 돼요.
-            </p>
-            <div class="support-actions">
-              <a href="#" class="btn btn-primary">커피 한 잔 응원하기</a>
+              <div class="panel small-card">
+                <div class="emoji-ball pink">🗓</div>
+                <h3>일정 관리</h3>
+                <p>해야 할 일과 체크 포인트를 가볍게 정리할 수 있어요.</p>
+              </div>
+
+              <div class="panel small-card">
+                <div class="emoji-ball purple">★</div>
+                <h3>링크 모음</h3>
+                <p>자주 가는 사이트를 한곳에 예쁘게 정리할 수 있어요.</p>
+              </div>
+
+              <div class="panel small-card">
+                <div class="emoji-ball mint">＋</div>
+                <h3>간편 계산</h3>
+                <p>작은 계산도 앱을 바꾸지 않고 바로 처리할 수 있어요.</p>
+              </div>
             </div>
-            <p class="support-note">
-              후원 링크나 응원 페이지가 생기면 여기에 연결하면 됩니다.
-            </p>
           </div>
+        </section>
 
-          <div class="support-card">
-            <div class="support-icon">💬</div>
-            <h3>피드백 보내기</h3>
-            <p>
-              사용 중 느낀 점이나 아이디어를 알려주시면
-              앞으로의 개선 방향에 큰 도움이 됩니다.
-            </p>
-          </div>
+        <!-- Slide 3 -->
+        <section class="slide slide-features">
+          <div class="slide-inner features-layout">
+            <div class="section-head">
+              <div class="bubble-tag">K-MemoKit FEATURES</div>
+              <h2>필요한 기능만<br />폭신하게 담았어요</h2>
+              <p>
+                복잡하게 가득 채운 앱보다,
+                자주 쓰는 기능을 보기 좋게 묶어
+                실제 사용이 편하도록 구성했습니다.
+              </p>
+            </div>
 
-          <div class="support-card">
-            <div class="support-icon">📣</div>
-            <h3>주변에 소개하기</h3>
-            <p>
-              블로그나 지인에게 가볍게 소개해 주시는 것만으로도
-              충분히 큰 응원이 됩니다.
-            </p>
+            <div class="feature-cards">
+              <article class="feature-card card-blue">
+                <div class="feature-top">
+                  <span class="feature-label">MEMO</span>
+                  <span class="feature-icon">📝</span>
+                </div>
+                <h3>메모장</h3>
+                <p>빠른 기록, 정리, 보관을 자연스럽게 이어갈 수 있어요.</p>
+              </article>
+
+              <article class="feature-card card-pink">
+                <div class="feature-top">
+                  <span class="feature-label">SCHEDULE</span>
+                  <span class="feature-icon">📅</span>
+                </div>
+                <h3>일정표</h3>
+                <p>중요한 일정과 해야 할 일을 깔끔하게 챙길 수 있어요.</p>
+              </article>
+
+              <article class="feature-card card-purple">
+                <div class="feature-top">
+                  <span class="feature-label">BOOKMARK</span>
+                  <span class="feature-icon">🔖</span>
+                </div>
+                <h3>즐겨찾기</h3>
+                <p>자주 찾는 링크를 바로 열 수 있게 정리해둘 수 있어요.</p>
+              </article>
+
+              <article class="feature-card card-mint">
+                <div class="feature-top">
+                  <span class="feature-label">CALCULATOR</span>
+                  <span class="feature-icon">🧮</span>
+                </div>
+                <h3>계산기</h3>
+                <p>간단한 계산이 필요할 때 빠르게 사용할 수 있어요.</p>
+              </article>
+
+              <article class="feature-card card-yellow">
+                <div class="feature-top">
+                  <span class="feature-label">FAST UI</span>
+                  <span class="feature-icon">⚡</span>
+                </div>
+                <h3>빠른 접근</h3>
+                <p>자주 쓰는 기능 위주라 작업 흐름이 끊기지 않아요.</p>
+              </article>
+
+              <article class="feature-card card-sky">
+                <div class="feature-top">
+                  <span class="feature-label">ALL-IN-ONE</span>
+                  <span class="feature-icon">💙</span>
+                </div>
+                <h3>통합 관리</h3>
+                <p>여러 도구를 번갈아 열지 않아도 한곳에서 처리할 수 있어요.</p>
+              </article>
+            </div>
           </div>
-        </div>
+        </section>
+
+        <!-- Slide 4 -->
+        <section class="slide slide-support">
+          <div class="slide-inner support-layout">
+            <div class="support-left">
+              <div class="bubble-tag">READY TO START?</div>
+              <h2>
+                KaironKit과 함께<br />
+                K-MemoKit을 시작해보세요
+              </h2>
+              <p>
+                다운로드, 업데이트, 문의, 지원 링크 등을
+                이 공간에 연결해 실제 홈페이지처럼 사용할 수 있습니다.
+              </p>
+
+              <div class="support-buttons">
+                <a href="#" class="cute-btn primary">다운로드 연결</a>
+                <a href="#" class="cute-btn secondary">업데이트 연결</a>
+                <a href="#" class="cute-btn soft">문의 / 지원 연결</a>
+              </div>
+            </div>
+
+            <div class="support-right">
+              <div class="support-card big-card">
+                <div class="support-card-title">
+                  <span>💡</span>
+                  <h3>추천 활용</h3>
+                </div>
+                <ul>
+                  <li>개인 메모와 일정 정리를 한 번에 하고 싶은 분</li>
+                  <li>자주 방문하는 링크를 함께 관리하고 싶은 분</li>
+                  <li>작고 가벼운 유틸리티를 선호하는 분</li>
+                  <li>친근한 브랜드 감성의 앱을 좋아하는 분</li>
+                </ul>
+              </div>
+
+              <div class="support-note">
+                <strong>KaironKit</strong>
+                <span>Simple, Cute, Useful.</span>
+              </div>
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
+    </div>
 
-    <!-- CONTACT -->
-    <section id="contact" class="section section-light contact-section">
-      <div class="container contact-box">
-        <div class="contact-text">
-          <p class="eyebrow">CONTACT</p>
-          <h2>KaironKit과 연결하기</h2>
-          <p>
-            이메일, 블로그, 다운로드 링크, 공식 안내 채널 등을
-            여기에 연결해 사용할 수 있습니다.
-          </p>
-
-          <div class="contact-links">
-            <a href="mailto:rkdwls151@gmail.com">rkdwls151@gmail.com</a>
-            <a href="https://blog.naver.com/iron_writer" target="_blank" rel="noopener noreferrer">
-              Naver Blog
-            </a>
-          </div>
-        </div>
-
-        <div class="contact-visual">
-          <div class="mini-brand-card">
-            <div class="mini-brand-title">KaironKit</div>
-            <div class="mini-brand-sub">Friendly Desktop Software</div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <button class="side-arrow side-arrow-right" id="nextBtn" aria-label="다음 슬라이드">
+      <span>›</span>
+    </button>
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <p>© 2026 KaironKit. All rights reserved.</p>
-      <p>K-MemoKit is the main program of KaironKit.</p>
+  <div class="bottom-ui">
+    <div class="slide-dots" id="slideDots">
+      <button class="dot active" data-slide="0" aria-label="1번 슬라이드"></button>
+      <button class="dot" data-slide="1" aria-label="2번 슬라이드"></button>
+      <button class="dot" data-slide="2" aria-label="3번 슬라이드"></button>
+      <button class="dot" data-slide="3" aria-label="4번 슬라이드"></button>
     </div>
-  </footer>
+
+    <div class="slide-help">
+      <span>좌우 버튼</span>
+      <span>마우스 휠</span>
+      <span>드래그</span>
+      <span>터치 스와이프</span>
+    </div>
+  </div>
 
   <script src="main.js"></script>
 </body>
