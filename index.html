@@ -6,7 +6,7 @@
   <title>KaironKit | K-MemoKit</title>
   <meta
     name="description"
-    content="KaironKit의 메인 프로그램 K-MemoKit을 소개하는 가로 슬라이드형 홈페이지"
+    content="KaironKit의 메인 프로그램 K-MemoKit을 소개하는 가로형 홈페이지"
   />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -32,9 +32,8 @@
 
     <nav class="topnav">
       <button class="nav-chip active" data-slide="0">HOME</button>
-      <button class="nav-chip" data-slide="1">INTRO</button>
-      <button class="nav-chip" data-slide="2">FEATURES</button>
-      <button class="nav-chip" data-slide="3">SUPPORT</button>
+      <button class="nav-chip" data-slide="1">FEATURES</button>
+      <button class="nav-chip" data-slide="2">SUPPORT</button>
     </nav>
   </header>
 
@@ -45,18 +44,18 @@
 
     <div class="slider-viewport" id="sliderViewport">
       <div class="slider-track" id="sliderTrack">
-        <!-- Slide 1 -->
+        <!-- Slide 1 : HOME -->
         <section class="slide slide-home">
           <div class="slide-inner">
             <div class="hero-left">
-              <div class="bubble-tag">귀엽고 폭신한 올인원 앱</div>
-
               <h1 class="hero-title">
                 <span class="title-small">KaironKit의 대표 프로그램</span>
-                <strong>K-MemoKit</strong>
+                <strong id="appTitle">K-MemoKit</strong>
               </h1>
 
-              <p class="hero-desc">
+              <div class="hero-space" aria-hidden="true"></div>
+
+              <p class="hero-desc" id="appDesc">
                 메모, 일정, 즐겨찾기, 계산기를 한곳에 모아
                 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다.
                 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는
@@ -64,11 +63,11 @@
               </p>
 
               <div class="hero-actions">
-                <button class="cute-btn primary" data-slide="2">기능 보기</button>
-                <button class="cute-btn secondary" data-slide="3">지원 보기</button>
+                <button class="cute-btn primary" id="installBtn">무료 설치</button>
+                <button class="cute-btn secondary" data-slide="1">기능 보기</button>
               </div>
 
-              <div class="mini-points">
+              <div class="mini-points" id="appPoints">
                 <span>Memo</span>
                 <span>Schedule</span>
                 <span>Bookmarks</span>
@@ -78,83 +77,30 @@
 
             <div class="hero-right">
               <div class="hero-image-wrap">
-                <div class="float-sticker sticker-blue">KaironKit</div>
-                <div class="float-sticker sticker-pink">K-MemoKit</div>
-                <img src="kaironkit-main.png" alt="KaironKit 대표 캐릭터 이미지" class="hero-image" />
+                <div class="app-ribbon-tabs" id="appRibbonTabs">
+                  <button
+                    class="ribbon-tab active"
+                    type="button"
+                    data-app="kmemokit"
+                  >
+                    K-MemoKit
+                  </button>
+                </div>
+
+                <img
+                  src="kaironkit-main.png"
+                  alt="K-MemoKit 대표 이미지"
+                  class="hero-image"
+                  id="appImage"
+                />
               </div>
             </div>
           </div>
         </section>
 
-        <!-- Slide 2 -->
-        <section class="slide slide-intro">
-          <div class="slide-inner intro-layout">
-            <div class="panel intro-panel big">
-              <div class="panel-badge blue">INTRO</div>
-              <h2>KaironKit은<br />친근하고 쉬운 도구를 만듭니다</h2>
-              <p>
-                어렵고 복잡한 느낌보다는,
-                누구나 바로 이해할 수 있는 편안한 사용감을 지향합니다.
-                K-MemoKit은 그 시작점이자 대표 프로그램입니다.
-              </p>
-
-              <div class="soft-list">
-                <div class="soft-item">
-                  <strong>쉽게</strong>
-                  <span>처음 봐도 부담 없는 구조</span>
-                </div>
-                <div class="soft-item">
-                  <strong>빠르게</strong>
-                  <span>자주 쓰는 기능을 바로 꺼내 사용</span>
-                </div>
-                <div class="soft-item">
-                  <strong>귀엽게</strong>
-                  <span>부드럽고 친근한 KaironKit 감성</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="panel-group">
-              <div class="panel small-card">
-                <div class="emoji-ball blue">✍</div>
-                <h3>메모 중심</h3>
-                <p>생각, 기록, 자료 정리를 빠르게 남길 수 있어요.</p>
-              </div>
-
-              <div class="panel small-card">
-                <div class="emoji-ball pink">🗓</div>
-                <h3>일정 관리</h3>
-                <p>해야 할 일과 체크 포인트를 가볍게 정리할 수 있어요.</p>
-              </div>
-
-              <div class="panel small-card">
-                <div class="emoji-ball purple">★</div>
-                <h3>링크 모음</h3>
-                <p>자주 가는 사이트를 한곳에 예쁘게 정리할 수 있어요.</p>
-              </div>
-
-              <div class="panel small-card">
-                <div class="emoji-ball mint">＋</div>
-                <h3>간편 계산</h3>
-                <p>작은 계산도 앱을 바꾸지 않고 바로 처리할 수 있어요.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Slide 3 -->
+        <!-- Slide 2 : FEATURES -->
         <section class="slide slide-features">
           <div class="slide-inner features-layout">
-            <div class="section-head">
-              <div class="bubble-tag">K-MemoKit FEATURES</div>
-              <h2>필요한 기능만<br />폭신하게 담았어요</h2>
-              <p>
-                복잡하게 가득 채운 앱보다,
-                자주 쓰는 기능을 보기 좋게 묶어
-                실제 사용이 편하도록 구성했습니다.
-              </p>
-            </div>
-
             <div class="feature-cards">
               <article class="feature-card card-blue">
                 <div class="feature-top">
@@ -213,44 +159,68 @@
           </div>
         </section>
 
-        <!-- Slide 4 -->
+        <!-- Slide 3 : SUPPORT -->
         <section class="slide slide-support">
           <div class="slide-inner support-layout">
-            <div class="support-left">
-              <div class="bubble-tag">READY TO START?</div>
-              <h2>
-                KaironKit과 함께<br />
-                K-MemoKit을 시작해보세요
-              </h2>
-              <p>
-                다운로드, 업데이트, 문의, 지원 링크 등을
-                이 공간에 연결해 실제 홈페이지처럼 사용할 수 있습니다.
-              </p>
+            <div class="support-main-card">
+              <div class="support-grid">
+                <section class="support-action-card like-card">
+                  <div class="support-card-head">
+                    <span class="support-emoji">💗</span>
+                    <h3>좋아요로 응원하기</h3>
+                  </div>
 
-              <div class="support-buttons">
-                <a href="#" class="cute-btn primary">다운로드 연결</a>
-                <a href="#" class="cute-btn secondary">업데이트 연결</a>
-                <a href="#" class="cute-btn soft">문의 / 지원 연결</a>
+                  <p class="support-copy">
+                    마음에 드셨다면 한 번 눌러주세요.
+                    응원 수가 쌓일수록 더 힘내서 만들게요.
+                  </p>
+
+                  <button class="like-button impact-button" id="likeButton" type="button">
+                    <span class="like-button-heart">♥</span>
+                    <span>좋아요 누르기</span>
+                  </button>
+
+                  <div class="like-count-box">
+                    <strong id="likeCount">0</strong>
+                    <span>누적 좋아요</span>
+                  </div>
+                </section>
+
+                <section class="support-action-card coffee-card">
+                  <div class="support-card-head">
+                    <span class="support-emoji">☕</span>
+                    <h3>개발자에게 커피 선물하기</h3>
+                  </div>
+
+                  <p class="support-copy">
+                    작게 후원하고 싶을 때 연결할 수 있도록
+                    준비해두는 자리입니다.
+                  </p>
+
+                  <a href="#" class="coffee-button impact-button" id="coffeeButton">커피 선물하기</a>
+
+                  <div class="coffee-note">
+                    후원 링크는 추후 연결 예정입니다.
+                  </div>
+                </section>
               </div>
-            </div>
 
-            <div class="support-right">
-              <div class="support-card big-card">
-                <div class="support-card-title">
-                  <span>💡</span>
-                  <h3>추천 활용</h3>
+              <div class="support-contact">
+                <div class="contact-item">
+                  <span class="contact-label">문의 이메일</span>
+                  <a href="mailto:rkdwls151@gmail.com">rkdwls151@gmail.com</a>
                 </div>
-                <ul>
-                  <li>개인 메모와 일정 정리를 한 번에 하고 싶은 분</li>
-                  <li>자주 방문하는 링크를 함께 관리하고 싶은 분</li>
-                  <li>작고 가벼운 유틸리티를 선호하는 분</li>
-                  <li>친근한 브랜드 감성의 앱을 좋아하는 분</li>
-                </ul>
-              </div>
 
-              <div class="support-note">
-                <strong>KaironKit</strong>
-                <span>Simple, Cute, Useful.</span>
+                <div class="contact-item">
+                  <span class="contact-label">블로그</span>
+                  <a
+                    href="https://blog.naver.com/iron_writer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    https://blog.naver.com/iron_writer
+                  </a>
+                </div>
               </div>
             </div>
           </div>
@@ -262,22 +232,6 @@
       <span>›</span>
     </button>
   </main>
-
-  <div class="bottom-ui">
-    <div class="slide-dots" id="slideDots">
-      <button class="dot active" data-slide="0" aria-label="1번 슬라이드"></button>
-      <button class="dot" data-slide="1" aria-label="2번 슬라이드"></button>
-      <button class="dot" data-slide="2" aria-label="3번 슬라이드"></button>
-      <button class="dot" data-slide="3" aria-label="4번 슬라이드"></button>
-    </div>
-
-    <div class="slide-help">
-      <span>좌우 버튼</span>
-      <span>마우스 휠</span>
-      <span>드래그</span>
-      <span>터치 스와이프</span>
-    </div>
-  </div>
 
   <script src="main.js"></script>
 </body>
