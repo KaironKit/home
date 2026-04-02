@@ -1,197 +1,259 @@
-const sliderTrack = document.getElementById("sliderTrack");
-const sliderViewport = document.getElementById("sliderViewport");
-const slides = document.querySelectorAll(".slide");
 const navChips = document.querySelectorAll(".nav-chip");
-const slideButtons = document.querySelectorAll("[data-slide]");
 const brandHome = document.getElementById("brandHome");
-const prevBtn = document.getElementById("prevBtn");
-const nextBtn = document.getElementById("nextBtn");
+const supportBtn = document.getElementById("supportBtn");
 
 const likeButton = document.getElementById("likeButton");
 const likeCount = document.getElementById("likeCount");
 const coffeeButton = document.getElementById("coffeeButton");
 const installBtn = document.getElementById("installBtn");
 
+const homeSection = document.getElementById("home");
+const supportSection = document.getElementById("support");
+
+const imageTrack = document.getElementById("imageTrack");
+const imageViewport = document.getElementById("imageViewport");
+const imagePrevBtn = document.getElementById("imagePrevBtn");
+const imageNextBtn = document.getElementById("imageNextBtn");
 const ribbonTabs = document.querySelectorAll(".ribbon-tab");
+const imageDots = document.querySelectorAll(".image-dot");
+
 const appTitle = document.getElementById("appTitle");
 const appDesc = document.getElementById("appDesc");
 const appPoints = document.getElementById("appPoints");
-const appImage = document.getElementById("appImage");
 
-const totalSlides = 3;
-let currentIndex = 0;
-let isAnimating = false;
+const imageSlides = document.querySelectorAll(".image-slide");
+const totalImages = imageSlides.length;
 
-let startX = 0;
-let startY = 0;
+let currentImageIndex = 0;
+let autoSlideTimer = null;
+
+let pointerStartX = 0;
+let pointerStartY = 0;
 let isPointerDown = false;
-let wheelLock = false;
+let isDraggingImage = false;
 
 const appData = {
-  kmemokit: {
-    title: "K-MemoKit",
-    desc:
-      "메모, 일정, 즐겨찾기, 계산기를 한곳에 모아 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다. 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는 나만의 작은 작업 키트를 목표로 만들었습니다.",
-    points: ["Memo", "Schedule", "Bookmarks", "Calculator"],
-    image: "kaironkit-main.png",
-    alt: "K-MemoKit 대표 이미지"
-  }
+  title: "K-MemoKit",
+  desc:
+    "메모, 일정, 즐겨찾기, 계산기를 한곳에 모아 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다. 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는 나만의 작은 작업 키트를 목표로 만들었습니다.",
+  points: ["Memo", "Schedule", "Bookmarks", "Calculator"]
 };
 
-function clampIndex(index) {
-  return Math.max(0, Math.min(index, totalSlides - 1));
+const COUNTER_NAMESPACE = "kaironkit-home";
+const COUNTER_KEY = "support-like-count";
+const LIMIT_ONE_LIKE_PER_BROWSER = false;
+const LIKE_CLICKED_STORAGE_KEY = "kaironkit_like_clicked";
+
+const COUNTER_GET_URL = `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}`;
+const COUNTER_HIT_URL = `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}/up`;
+
+function renderAppInfo() {
+  if (appTitle) appTitle.textContent = appData.title;
+  if (appDesc) appDesc.textContent = appData.desc;
+
+  if (appPoints) {
+    appPoints.innerHTML = "";
+    appData.points.forEach((point) => {
+      const span = document.createElement("span");
+      span.textContent = point;
+      appPoints.appendChild(span);
+    });
+  }
 }
 
-function updateUI() {
-  navChips.forEach((chip, i) => {
-    chip.classList.toggle("active", i === currentIndex);
+function scrollToSection(section) {
+  if (!section) return;
+
+  section.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
   });
-
-  if (prevBtn) {
-    prevBtn.style.opacity = currentIndex === 0 ? "0.45" : "1";
-  }
-
-  if (nextBtn) {
-    nextBtn.style.opacity = currentIndex === totalSlides - 1 ? "0.45" : "1";
-  }
 }
 
-function updateViewportHeight() {
-  if (!sliderViewport || !slides[currentIndex]) return;
+function setActiveNavBySection() {
+  const sections = [
+    { key: "home", el: homeSection },
+    { key: "support", el: supportSection }
+  ];
 
-  if (window.innerWidth <= 980) {
-    sliderViewport.style.height = "auto";
-    return;
-  }
+  const headerOffset = 140;
+  let activeKey = "home";
 
-  const activeSlide = slides[currentIndex];
-  const targetHeight = activeSlide.offsetHeight;
-  sliderViewport.style.height = `${targetHeight}px`;
-}
-
-function goToSlide(index) {
-  const nextIndex = clampIndex(index);
-  if (isAnimating || nextIndex === currentIndex) return;
-
-  currentIndex = nextIndex;
-  isAnimating = true;
-
-  sliderTrack.style.transform = `translateX(-${currentIndex * 100}vw)`;
-  updateUI();
-  updateViewportHeight();
-
-  window.scrollTo({
-    top: 0,
-    behavior: "smooth"
-  });
-
-  setTimeout(() => {
-    isAnimating = false;
-    updateViewportHeight();
-  }, 580);
-}
-
-function goNext() {
-  goToSlide(currentIndex + 1);
-}
-
-function goPrev() {
-  goToSlide(currentIndex - 1);
-}
-
-slideButtons.forEach((button) => {
-  button.addEventListener("click", () => {
-    const index = Number(button.dataset.slide);
-    if (!Number.isNaN(index)) {
-      goToSlide(index);
+  sections.forEach((section) => {
+    if (!section.el) return;
+    const top = section.el.getBoundingClientRect().top;
+    if (top - headerOffset <= 0) {
+      activeKey = section.key;
     }
+  });
+
+  navChips.forEach((chip) => {
+    chip.classList.toggle("active", chip.dataset.target === activeKey);
+  });
+}
+
+navChips.forEach((chip) => {
+  chip.addEventListener("click", () => {
+    const targetId = chip.dataset.target;
+    const target = document.getElementById(targetId);
+    scrollToSection(target);
   });
 });
 
 if (brandHome) {
   brandHome.addEventListener("click", (e) => {
     e.preventDefault();
-    if (currentIndex !== 0) {
-      goToSlide(0);
-    }
+    scrollToSection(homeSection);
   });
 }
 
-if (prevBtn) {
-  prevBtn.addEventListener("click", goPrev);
+if (supportBtn) {
+  supportBtn.addEventListener("click", () => {
+    scrollToSection(supportSection);
+  });
 }
 
-if (nextBtn) {
-  nextBtn.addEventListener("click", goNext);
+function clampImageIndex(index) {
+  if (index < 0) return totalImages - 1;
+  if (index >= totalImages) return 0;
+  return index;
 }
 
-window.addEventListener(
-  "wheel",
-  (e) => {
-    if (window.innerWidth <= 980) return;
-    if (wheelLock || isAnimating) return;
+function updateImageUI() {
+  if (imageTrack) {
+    imageTrack.style.transform = `translateX(-${currentImageIndex * 100}%)`;
+  }
 
-    const delta = e.deltaY;
-    if (Math.abs(delta) < 28) return;
+  ribbonTabs.forEach((tab, i) => {
+    tab.classList.toggle("active", i === currentImageIndex);
+  });
 
-    wheelLock = true;
+  imageDots.forEach((dot, i) => {
+    dot.classList.toggle("active", i === currentImageIndex);
+  });
+}
 
-    if (delta > 0) {
-      goNext();
-    } else {
-      goPrev();
-    }
+function goToImage(index) {
+  currentImageIndex = clampImageIndex(index);
+  updateImageUI();
+}
 
-    setTimeout(() => {
-      wheelLock = false;
-    }, 720);
-  },
-  { passive: true }
-);
+function goNextImage() {
+  goToImage(currentImageIndex + 1);
+}
+
+function goPrevImage() {
+  goToImage(currentImageIndex - 1);
+}
+
+function restartAutoSlide() {
+  stopAutoSlide();
+  startAutoSlide();
+}
+
+function startAutoSlide() {
+  autoSlideTimer = window.setInterval(() => {
+    goNextImage();
+  }, 3000);
+}
+
+function stopAutoSlide() {
+  if (autoSlideTimer) {
+    clearInterval(autoSlideTimer);
+    autoSlideTimer = null;
+  }
+}
+
+if (imagePrevBtn) {
+  imagePrevBtn.addEventListener("click", () => {
+    goPrevImage();
+    restartAutoSlide();
+  });
+}
+
+if (imageNextBtn) {
+  imageNextBtn.addEventListener("click", () => {
+    goNextImage();
+    restartAutoSlide();
+  });
+}
+
+ribbonTabs.forEach((tab) => {
+  tab.addEventListener("click", () => {
+    const index = Number(tab.dataset.imageIndex);
+    if (Number.isNaN(index)) return;
+    goToImage(index);
+    restartAutoSlide();
+  });
+});
+
+imageDots.forEach((dot) => {
+  dot.addEventListener("click", () => {
+    const index = Number(dot.dataset.imageIndex);
+    if (Number.isNaN(index)) return;
+    goToImage(index);
+    restartAutoSlide();
+  });
+});
 
 function pointerDown(clientX, clientY) {
   isPointerDown = true;
-  startX = clientX;
-  startY = clientY;
+  isDraggingImage = false;
+  pointerStartX = clientX;
+  pointerStartY = clientY;
+  stopAutoSlide();
+}
+
+function pointerMove(clientX, clientY) {
+  if (!isPointerDown) return;
+
+  const diffX = clientX - pointerStartX;
+  const diffY = clientY - pointerStartY;
+
+  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 8) {
+    isDraggingImage = true;
+  }
 }
 
 function pointerUp(clientX, clientY) {
   if (!isPointerDown) return;
 
-  const diffX = clientX - startX;
-  const diffY = clientY - startY;
-  const threshold = 70;
+  const diffX = clientX - pointerStartX;
+  const diffY = clientY - pointerStartY;
+  const threshold = 50;
 
   if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) >= threshold) {
     if (diffX < 0) {
-      goNext();
+      goNextImage();
     } else {
-      goPrev();
+      goPrevImage();
     }
   }
 
   isPointerDown = false;
+  isDraggingImage = false;
+  restartAutoSlide();
 }
 
-if (sliderViewport) {
-  sliderViewport.addEventListener("mousedown", (e) => {
-    if (window.innerWidth <= 980) return;
+if (imageViewport) {
+  imageViewport.addEventListener("mousedown", (e) => {
     pointerDown(e.clientX, e.clientY);
   });
 
-  sliderViewport.addEventListener("mouseup", (e) => {
-    if (window.innerWidth <= 980) return;
+  imageViewport.addEventListener("mousemove", (e) => {
+    pointerMove(e.clientX, e.clientY);
+  });
+
+  imageViewport.addEventListener("mouseup", (e) => {
     pointerUp(e.clientX, e.clientY);
   });
 
-  sliderViewport.addEventListener("mouseleave", (e) => {
-    if (window.innerWidth <= 980) return;
-    if (isPointerDown) {
-      pointerUp(e.clientX, e.clientY);
-    }
+  imageViewport.addEventListener("mouseleave", (e) => {
+    if (!isPointerDown) return;
+    pointerUp(e.clientX, e.clientY);
   });
 
-  sliderViewport.addEventListener(
+  imageViewport.addEventListener(
     "touchstart",
     (e) => {
       if (!e.touches.length) return;
@@ -200,7 +262,16 @@ if (sliderViewport) {
     { passive: true }
   );
 
-  sliderViewport.addEventListener(
+  imageViewport.addEventListener(
+    "touchmove",
+    (e) => {
+      if (!e.touches.length) return;
+      pointerMove(e.touches[0].clientX, e.touches[0].clientY);
+    },
+    { passive: true }
+  );
+
+  imageViewport.addEventListener(
     "touchend",
     (e) => {
       if (!e.changedTouches.length) return;
@@ -210,48 +281,67 @@ if (sliderViewport) {
   );
 }
 
-window.addEventListener("resize", () => {
-  sliderTrack.style.transform = `translateX(-${currentIndex * 100}vw)`;
-  updateViewportHeight();
-});
+function setLikeButtonDisabled(disabled) {
+  if (!likeButton) return;
 
-function renderApp(appKey) {
-  const app = appData[appKey];
-  if (!app) return;
-
-  appTitle.textContent = app.title;
-  appDesc.textContent = app.desc;
-  appImage.src = app.image;
-  appImage.alt = app.alt;
-
-  appPoints.innerHTML = "";
-  app.points.forEach((point) => {
-    const span = document.createElement("span");
-    span.textContent = point;
-    appPoints.appendChild(span);
-  });
-
-  ribbonTabs.forEach((tab) => {
-    tab.classList.toggle("active", tab.dataset.app === appKey);
-  });
-
-  requestAnimationFrame(updateViewportHeight);
+  likeButton.disabled = disabled;
+  likeButton.style.opacity = disabled ? "0.7" : "1";
+  likeButton.style.cursor = disabled ? "default" : "pointer";
 }
 
-ribbonTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    renderApp(tab.dataset.app);
-  });
-});
+function formatCount(value) {
+  const num = Number(value);
+  if (Number.isNaN(num)) return "0";
+  return num.toLocaleString("ko-KR");
+}
 
-const LIKE_STORAGE_KEY = "kaironkit_like_count";
-const savedLikeCount = Number(localStorage.getItem(LIKE_STORAGE_KEY) || "0");
-let currentLikeCount = Number.isNaN(savedLikeCount) ? 0 : savedLikeCount;
+function renderLikeCount(value) {
+  if (!likeCount) return;
+  likeCount.textContent = formatCount(value);
+}
 
-function renderLikeCount() {
-  if (likeCount) {
-    likeCount.textContent = currentLikeCount.toLocaleString("ko-KR");
+async function fetchJson(url, options = {}) {
+  const response = await fetch(url, options);
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`);
   }
+
+  return await response.json();
+}
+
+async function loadGlobalLikeCount() {
+  try {
+    const data = await fetchJson(COUNTER_GET_URL, {
+      method: "GET",
+      cache: "no-store"
+    });
+
+    const value = data?.data?.up_count ?? data?.value ?? data?.count ?? 0;
+    renderLikeCount(value);
+  } catch (error) {
+    console.error("좋아요 수 조회 실패:", error);
+    renderLikeCount(0);
+  }
+}
+
+function hasAlreadyLikedInThisBrowser() {
+  if (!LIMIT_ONE_LIKE_PER_BROWSER) return false;
+  return localStorage.getItem(LIKE_CLICKED_STORAGE_KEY) === "1";
+}
+
+function markLikedInThisBrowser() {
+  if (!LIMIT_ONE_LIKE_PER_BROWSER) return;
+  localStorage.setItem(LIKE_CLICKED_STORAGE_KEY, "1");
+}
+
+function syncLikeButtonState() {
+  if (!LIMIT_ONE_LIKE_PER_BROWSER) {
+    setLikeButtonDisabled(false);
+    return;
+  }
+
+  setLikeButtonDisabled(hasAlreadyLikedInThisBrowser());
 }
 
 function createImpact(button, theme = "like") {
@@ -297,11 +387,32 @@ function createImpact(button, theme = "like") {
 }
 
 if (likeButton) {
-  likeButton.addEventListener("click", () => {
-    currentLikeCount += 1;
-    localStorage.setItem(LIKE_STORAGE_KEY, String(currentLikeCount));
-    renderLikeCount();
-    createImpact(likeButton, "like");
+  likeButton.addEventListener("click", async () => {
+    if (hasAlreadyLikedInThisBrowser()) {
+      alert("이 브라우저에서는 이미 좋아요를 눌렀어요.");
+      return;
+    }
+
+    setLikeButtonDisabled(true);
+
+    try {
+      const data = await fetchJson(COUNTER_HIT_URL, {
+        method: "GET",
+        cache: "no-store"
+      });
+
+      const value = data?.data?.up_count ?? data?.value ?? data?.count ?? 0;
+      renderLikeCount(value);
+      markLikedInThisBrowser();
+      createImpact(likeButton, "like");
+    } catch (error) {
+      console.error("좋아요 증가 실패:", error);
+      alert("좋아요 처리 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.");
+      setLikeButtonDisabled(false);
+      return;
+    }
+
+    syncLikeButtonState();
   });
 }
 
@@ -322,10 +433,14 @@ if (installBtn) {
   });
 }
 
-window.addEventListener("load", () => {
-  renderApp("kmemokit");
-  renderLikeCount();
-  updateUI();
-  sliderTrack.style.transform = "translateX(0vw)";
-  updateViewportHeight();
+window.addEventListener("scroll", setActiveNavBySection);
+
+window.addEventListener("load", async () => {
+  renderAppInfo();
+  updateImageUI();
+  setActiveNavBySection();
+  startAutoSlide();
+
+  syncLikeButtonState();
+  await loadGlobalLikeCount();
 });
