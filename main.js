@@ -4,6 +4,7 @@ const supportBtn = document.getElementById("supportBtn");
 
 const likeButton = document.getElementById("likeButton");
 const likeCount = document.getElementById("likeCount");
+const likeCountBox = document.getElementById("likeCountBox");
 const coffeeButton = document.getElementById("coffeeButton");
 const installBtn = document.getElementById("installBtn");
 
@@ -14,8 +15,8 @@ const imageTrack = document.getElementById("imageTrack");
 const imageViewport = document.getElementById("imageViewport");
 const imagePrevBtn = document.getElementById("imagePrevBtn");
 const imageNextBtn = document.getElementById("imageNextBtn");
-const ribbonTabs = document.querySelectorAll(".ribbon-tab");
 const imageDots = document.querySelectorAll(".image-dot");
+const imageCaption = document.getElementById("imageCaption");
 
 const appTitle = document.getElementById("appTitle");
 const appDesc = document.getElementById("appDesc");
@@ -36,15 +37,23 @@ const appData = {
   title: "K-MemoKit",
   desc:
     "메모, 일정, 즐겨찾기, 계산기를 한곳에 모아 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다. 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는 나만의 작은 작업 키트를 목표로 만들었습니다.",
-  points: ["Memo", "Schedule", "Bookmarks", "Calculator"]
+  points: []
 };
+
+const slideMeta = [
+  { title: "소개", desc: "K-MemoKit의 전체 구성을 한눈에 볼 수 있어요." },
+  { title: "메모", desc: "빠르고 편하게 기록하는 핵심 기능입니다." },
+  { title: "즐겨찾기", desc: "자주 쓰는 링크를 깔끔하게 정리해요." },
+  { title: "스케줄", desc: "하루 일정과 메모를 함께 관리할 수 있어요." },
+  { title: "계산기", desc: "업무 중 바로 꺼내 쓰는 실용 기능입니다." },
+  { title: "캡처", desc: "필요한 순간을 빠르게 기록하고 저장해요." }
+];
 
 const COUNTER_NAMESPACE = "kaironkit-home";
 const COUNTER_KEY = "support-like-count";
 const LIMIT_ONE_LIKE_PER_BROWSER = false;
 const LIKE_CLICKED_STORAGE_KEY = "kaironkit_like_clicked";
 
-const COUNTER_GET_URL = `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}`;
 const COUNTER_HIT_URL = `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}/up`;
 
 function renderAppInfo() {
@@ -119,18 +128,26 @@ function clampImageIndex(index) {
   return index;
 }
 
+function updateImageCaption() {
+  if (!imageCaption) return;
+
+  const meta = slideMeta[currentImageIndex] || slideMeta[0];
+  imageCaption.innerHTML = `
+    <strong>${meta.title}</strong>
+    <span>${meta.desc}</span>
+  `;
+}
+
 function updateImageUI() {
   if (imageTrack) {
     imageTrack.style.transform = `translateX(-${currentImageIndex * 100}%)`;
   }
 
-  ribbonTabs.forEach((tab, i) => {
-    tab.classList.toggle("active", i === currentImageIndex);
-  });
-
   imageDots.forEach((dot, i) => {
     dot.classList.toggle("active", i === currentImageIndex);
   });
+
+  updateImageCaption();
 }
 
 function goToImage(index) {
@@ -154,7 +171,7 @@ function restartAutoSlide() {
 function startAutoSlide() {
   autoSlideTimer = window.setInterval(() => {
     goNextImage();
-  }, 3000);
+  }, 3200);
 }
 
 function stopAutoSlide() {
@@ -177,15 +194,6 @@ if (imageNextBtn) {
     restartAutoSlide();
   });
 }
-
-ribbonTabs.forEach((tab) => {
-  tab.addEventListener("click", () => {
-    const index = Number(tab.dataset.imageIndex);
-    if (Number.isNaN(index)) return;
-    goToImage(index);
-    restartAutoSlide();
-  });
-});
 
 imageDots.forEach((dot) => {
   dot.addEventListener("click", () => {
@@ -285,7 +293,7 @@ function setLikeButtonDisabled(disabled) {
   if (!likeButton) return;
 
   likeButton.disabled = disabled;
-  likeButton.style.opacity = disabled ? "0.7" : "1";
+  likeButton.style.opacity = disabled ? "0.82" : "1";
   likeButton.style.cursor = disabled ? "default" : "pointer";
 }
 
@@ -295,9 +303,20 @@ function formatCount(value) {
   return num.toLocaleString("ko-KR");
 }
 
+function hideLikeCountBox() {
+  if (!likeCountBox) return;
+  likeCountBox.classList.add("is-hidden");
+}
+
+function showLikeCountBox() {
+  if (!likeCountBox) return;
+  likeCountBox.classList.remove("is-hidden");
+}
+
 function renderLikeCount(value) {
   if (!likeCount) return;
   likeCount.textContent = formatCount(value);
+  showLikeCountBox();
 }
 
 async function fetchJson(url, options = {}) {
@@ -311,18 +330,7 @@ async function fetchJson(url, options = {}) {
 }
 
 async function loadGlobalLikeCount() {
-  try {
-    const data = await fetchJson(COUNTER_GET_URL, {
-      method: "GET",
-      cache: "no-store"
-    });
-
-    const value = data?.data?.up_count ?? data?.value ?? data?.count ?? 0;
-    renderLikeCount(value);
-  } catch (error) {
-    console.error("좋아요 수 조회 실패:", error);
-    renderLikeCount(0);
-  }
+  hideLikeCountBox();
 }
 
 function hasAlreadyLikedInThisBrowser() {
@@ -358,13 +366,13 @@ function createImpact(button, theme = "like") {
   ring.className = "impact-ring";
   button.appendChild(ring);
 
-  const particleCount = 12;
+  const particleCount = 14;
   for (let i = 0; i < particleCount; i++) {
     const particle = document.createElement("span");
     particle.className = "impact-particle";
 
     const angle = (Math.PI * 2 * i) / particleCount;
-    const distance = 70 + Math.random() * 34;
+    const distance = 70 + Math.random() * 36;
     const x = Math.cos(angle) * distance;
     const y = Math.sin(angle) * distance;
 
