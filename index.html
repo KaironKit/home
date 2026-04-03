@@ -55,28 +55,19 @@
             나만의 작은 작업 키트를 목표로 만들었습니다.
           </p>
 
-          <div class="hero-actions">
-            <button class="cute-btn primary" id="installBtn">무료설치</button>
-            <button class="cute-btn secondary" id="supportBtn">응원하기</button>
-          </div>
-
-          <div class="mini-points" id="appPoints">
-            <span>Memo</span>
-            <span>Schedule</span>
-            <span>Bookmarks</span>
-            <span>Calculator</span>
+          <div class="hero-actions hero-actions-large">
+            <button class="cute-btn primary big-action" id="installBtn">무료설치</button>
+            <button class="cute-btn secondary big-action" id="supportBtn">응원하기</button>
           </div>
         </div>
 
         <div class="hero-right">
           <div class="hero-image-wrap">
-            <div class="app-ribbon-tabs" id="appRibbonTabs">
-              <button class="ribbon-tab active" type="button" data-image-index="0">소개</button>
-              <button class="ribbon-tab" type="button" data-image-index="1">메모</button>
-              <button class="ribbon-tab" type="button" data-image-index="2">즐겨찾기</button>
-              <button class="ribbon-tab" type="button" data-image-index="3">스케줄</button>
-              <button class="ribbon-tab" type="button" data-image-index="4">계산기</button>
-              <button class="ribbon-tab" type="button" data-image-index="5">캡처</button>
+            <div class="hero-image-glow hero-image-glow-1" aria-hidden="true"></div>
+            <div class="hero-image-glow hero-image-glow-2" aria-hidden="true"></div>
+
+            <div class="image-panel-tabs" aria-label="슬라이드 탭">
+              <button type="button" class="image-panel-tab active">K-MemoKit</button>
             </div>
 
             <div class="image-carousel" id="imageCarousel">
@@ -87,6 +78,8 @@
               <div class="image-viewport" id="imageViewport">
                 <div class="image-frame-box">
                   <div class="image-frame-inner">
+                    <div class="image-shine" aria-hidden="true"></div>
+
                     <div class="image-track" id="imageTrack">
                       <div class="image-slide">
                         <img src="img1.png" alt="K-MemoKit 구성 이미지 1" class="hero-image" />
@@ -106,6 +99,11 @@
                       <div class="image-slide">
                         <img src="img6.png" alt="K-MemoKit 구성 이미지 6" class="hero-image" />
                       </div>
+                    </div>
+
+                    <div class="image-caption" id="imageCaption">
+                      <strong>소개</strong>
+                      <span>K-MemoKit의 전체 구성을 한눈에 볼 수 있어요.</span>
                     </div>
                   </div>
                 </div>
@@ -147,11 +145,11 @@
 
               <button class="like-button impact-button" id="likeButton" type="button">
                 <span class="like-button-heart">♥</span>
-                <span>좋아요 누르기</span>
+                <span>좋아요</span>
               </button>
 
-              <div class="like-count-box">
-                <strong id="likeCount">0</strong>
+              <div class="like-count-box is-hidden" id="likeCountBox">
+                <strong id="likeCount"></strong>
                 <span>누적 좋아요</span>
               </div>
             </section>
@@ -167,7 +165,7 @@
                 준비해두는 자리입니다.
               </p>
 
-              <a href="#" class="coffee-button impact-button" id="coffeeButton">커피 선물하기</a>
+              <a href="#" class="coffee-button impact-button" id="coffeeButton">☕ 커피 선물하기</a>
 
               <div class="coffee-note">
                 후원 링크는 추후 연결 예정입니다.
@@ -178,7 +176,7 @@
           <div class="support-contact">
             <div class="contact-item">
               <span class="contact-label">문의 이메일</span>
-              <a href="mailto:rkdwls151@gmail.com">rkdwls151@gmail.com</a>
+              <a href="mailto:kaironkit@gmail.com">kaironkit@gmail.com</a>
             </div>
 
             <div class="contact-item">
