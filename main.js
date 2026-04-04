@@ -3,12 +3,14 @@ const likeButtonText = document.getElementById("likeButtonText");
 const installBtn = document.getElementById("installBtn");
 const likeBurstLayer = document.getElementById("likeBurstLayer");
 
+const imageCarousel = document.getElementById("imageCarousel");
 const imageTrack = document.getElementById("imageTrack");
 const imageViewport = document.getElementById("imageViewport");
 const imagePrevBtn = document.getElementById("imagePrevBtn");
 const imageNextBtn = document.getElementById("imageNextBtn");
 const imageDots = document.querySelectorAll(".image-dot");
 const imageCaption = document.getElementById("imageCaption");
+const slideToggleImpact = document.getElementById("slideToggleImpact");
 
 const appTitle = document.getElementById("appTitle");
 const appDesc = document.getElementById("appDesc");
@@ -18,10 +20,12 @@ const totalImages = imageSlides.length;
 
 let currentImageIndex = 0;
 let autoSlideTimer = null;
+let isAutoSlidePaused = false;
 
 let pointerStartX = 0;
 let pointerStartY = 0;
 let isPointerDown = false;
+let shouldIgnoreViewportClick = false;
 
 const appData = {
   title: "K-MemoKit",
@@ -30,7 +34,7 @@ const appData = {
 };
 
 const slideMeta = [
-  { title: "소개", desc: "K-MemoKit의 전체 구성을 한눈에 볼 수 있어요." },
+  null,
   { title: "메모", desc: "빠르고 편하게 기록하는 핵심 기능입니다." },
   { title: "즐겨찾기", desc: "자주 쓰는 링크를 깔끔하게 정리해요." },
   { title: "스케줄", desc: "하루 일정과 메모를 함께 관리할 수 있어요." },
@@ -60,11 +64,26 @@ function clampImageIndex(index) {
 function updateImageCaption() {
   if (!imageCaption) return;
 
-  const meta = slideMeta[currentImageIndex] || slideMeta[0];
+  const meta = slideMeta[currentImageIndex];
+
+  if (!meta) {
+    imageCaption.classList.add("is-hidden");
+    imageCaption.setAttribute("aria-hidden", "true");
+    imageCaption.innerHTML = "<strong></strong><span></span>";
+    return;
+  }
+
+  imageCaption.classList.remove("is-hidden");
+  imageCaption.setAttribute("aria-hidden", "false");
   imageCaption.innerHTML = `
     <strong>${meta.title}</strong>
     <span>${meta.desc}</span>
   `;
+}
+
+function updatePlaybackStateUI() {
+  if (!imageCarousel) return;
+  imageCarousel.classList.toggle("is-paused", isAutoSlidePaused);
 }
 
 function updateImageUI() {
@@ -77,6 +96,7 @@ function updateImageUI() {
   });
 
   updateImageCaption();
+  updatePlaybackStateUI();
 }
 
 function goToImage(index) {
@@ -93,6 +113,8 @@ function goPrevImage() {
 }
 
 function startAutoSlide() {
+  if (isAutoSlidePaused) return;
+
   stopAutoSlide();
   autoSlideTimer = window.setInterval(() => {
     goNextImage();
@@ -107,8 +129,51 @@ function stopAutoSlide() {
 }
 
 function restartAutoSlide() {
+  if (isAutoSlidePaused) {
+    stopAutoSlide();
+    return;
+  }
+
   stopAutoSlide();
   startAutoSlide();
+}
+
+function showSlideToggleImpact(text) {
+  if (!slideToggleImpact) return;
+
+  slideToggleImpact.textContent = text;
+  slideToggleImpact.classList.remove("show");
+  void slideToggleImpact.offsetWidth;
+  slideToggleImpact.classList.add("show");
+}
+
+function pauseSlidePlayback() {
+  isAutoSlidePaused = true;
+  stopAutoSlide();
+  updatePlaybackStateUI();
+  showSlideToggleImpact("II");
+}
+
+function resumeSlidePlayback() {
+  isAutoSlidePaused = false;
+  startAutoSlide();
+  updatePlaybackStateUI();
+  showSlideToggleImpact("▶");
+}
+
+function toggleSlidePlayback() {
+  if (isAutoSlidePaused) {
+    resumeSlidePlayback();
+  } else {
+    pauseSlidePlayback();
+  }
+}
+
+function suppressViewportClickOnce() {
+  shouldIgnoreViewportClick = true;
+  window.setTimeout(() => {
+    shouldIgnoreViewportClick = false;
+  }, 120);
 }
 
 if (imagePrevBtn) {
@@ -147,13 +212,17 @@ function pointerUp(clientX, clientY) {
   const diffX = clientX - pointerStartX;
   const diffY = clientY - pointerStartY;
   const threshold = 50;
+  const isSwipe =
+    Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) >= threshold;
 
-  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) >= threshold) {
+  if (isSwipe) {
     if (diffX < 0) {
       goNextImage();
     } else {
       goPrevImage();
     }
+
+    suppressViewportClickOnce();
   }
 
   isPointerDown = false;
@@ -191,6 +260,22 @@ if (imageViewport) {
     },
     { passive: true }
   );
+
+  imageViewport.addEventListener("click", () => {
+    if (shouldIgnoreViewportClick) {
+      shouldIgnoreViewportClick = false;
+      return;
+    }
+
+    toggleSlidePlayback();
+  });
+
+  imageViewport.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      toggleSlidePlayback();
+    }
+  });
 }
 
 function setLikeButtonDisabled(disabled) {
