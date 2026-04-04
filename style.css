@@ -20,7 +20,7 @@
   --radius-lg: 28px;
   --radius-md: 22px;
   --radius-sm: 16px;
-  --topbar-h: 100px;
+  --topbar-h: 8px;
 }
 
 * {
@@ -102,105 +102,21 @@ img {
 }
 
 .topbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  width: 100%;
   height: var(--topbar-h);
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 18px 28px;
-  z-index: 100;
   background: transparent;
-  backdrop-filter: none;
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 14px;
-  padding: 10px 16px;
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.96);
-  box-shadow: 0 12px 26px rgba(82, 105, 160, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.95);
-}
-
-.brand-mark {
-  width: 48px;
-  height: 48px;
-  border-radius: 16px;
-  display: grid;
-  place-items: center;
-  color: #fff;
-  font-weight: 900;
-  font-size: 1.35rem;
-  background: linear-gradient(135deg, var(--blue), var(--pink));
-  box-shadow: 0 10px 20px rgba(90, 174, 255, 0.25);
-}
-
-.brand-text {
-  display: flex;
-  flex-direction: column;
-  line-height: 1.05;
-}
-
-.brand-text strong {
-  font-size: 1rem;
-  font-weight: 800;
-}
-
-.brand-text small {
-  margin-top: 4px;
-  font-size: 0.78rem;
-  color: var(--text-soft);
-  font-weight: 600;
-}
-
-.topnav {
-  display: flex;
-  gap: 10px;
-  padding: 0;
-  border-radius: 999px;
-  background: transparent;
-  box-shadow: none;
-}
-
-.nav-chip {
-  padding: 12px 18px;
-  border-radius: 999px;
-  color: var(--text-soft);
-  font-weight: 800;
-  transition: 0.25s ease;
-  background: rgba(255, 255, 255, 0.78);
-  box-shadow: var(--shadow-card);
-}
-
-.nav-chip:hover {
-  color: var(--text);
-  background: rgba(255, 255, 255, 0.92);
-}
-
-.nav-chip.active {
-  color: #fff;
-  background: linear-gradient(135deg, var(--blue), var(--pink));
-  box-shadow: 0 8px 18px rgba(100, 150, 230, 0.22);
 }
 
 .page-shell {
   position: relative;
   z-index: 5;
   width: 100%;
-  padding-top: calc(var(--topbar-h) + 20px);
-  padding-bottom: 40px;
+  padding-top: 0;
 }
 
 .page-section {
   width: 100%;
-  min-height: 100vh;
-  padding: 24px 90px 40px;
-  scroll-margin-top: calc(var(--topbar-h) + 16px);
+  padding: 10px 90px 12px;
 }
 
 .section-inner {
@@ -213,8 +129,8 @@ img {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 40px;
-  min-height: calc(100vh - 140px);
+  gap: 36px;
+  min-height: calc(100vh - 110px);
 }
 
 .hero-left {
@@ -230,14 +146,14 @@ img {
 }
 
 .hero-title {
-  margin: 18px 0 0;
+  margin: 4px 0 0;
   line-height: 1.04;
 }
 
 .hero-title .title-small {
   display: block;
-  margin-bottom: 8px;
-  font-size: clamp(1.05rem, 1.8vw, 1.4rem);
+  margin-bottom: 6px;
+  font-size: clamp(1.02rem, 1.7vw, 1.3rem);
   color: var(--text-soft);
   font-weight: 800;
 }
@@ -251,28 +167,24 @@ img {
 }
 
 .hero-space {
-  height: 54px;
+  height: 22px;
 }
 
 .hero-desc {
   max-width: 640px;
   margin: 0;
   font-size: 1.08rem;
-  line-height: 1.9;
+  line-height: 1.85;
   color: var(--text-soft);
   font-weight: 500;
 }
 
 .hero-actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  align-items: center;
   gap: 14px;
-  margin-top: 28px;
-}
-
-.hero-actions-large {
-  gap: 18px;
-  margin-top: 34px;
+  margin-top: 24px;
 }
 
 .cute-btn {
@@ -296,35 +208,51 @@ img {
   color: #fff;
 }
 
-.cute-btn.secondary {
-  background: linear-gradient(135deg, var(--pink), var(--pink-deep));
+.like-action {
   color: #fff;
+  background: linear-gradient(135deg, #ff76b6 0%, #ff5ba8 48%, #ff8f6b 100%);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
 }
 
 .big-action {
-  min-width: 190px;
-  min-height: 78px;
-  padding: 0 34px;
-  font-size: 1.32rem;
+  min-width: 0;
+  height: 76px;
+  padding: 0 28px;
+  font-size: 1.24rem;
   font-weight: 900;
   letter-spacing: -0.03em;
   box-shadow:
     0 18px 34px rgba(72, 105, 170, 0.16),
-    inset 0 1px 0 rgba(255,255,255,0.28);
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+#installBtn {
+  flex: 0 0 190px;
+}
+
+#likeButton {
+  flex: 0 1 auto;
+  min-width: 220px;
 }
 
 .big-action:hover {
   transform: translateY(-4px) scale(1.02);
 }
 
-.mini-points {
-  display: none;
+.like-button-heart {
+  font-size: 1.45rem;
+  flex: 0 0 auto;
+}
+
+.like-button-text {
+  display: inline-block;
+  white-space: nowrap;
 }
 
 .hero-image-wrap {
   position: relative;
   width: min(100%, 760px);
-  padding: 20px 20px 18px;
+  padding: 18px 18px 16px;
   border-radius: 36px;
   background:
     linear-gradient(180deg, rgba(255,255,255,0.9), rgba(255,255,255,0.68));
@@ -364,12 +292,12 @@ img {
   z-index: 3;
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 
 .image-panel-tab {
   min-width: 150px;
-  height: 46px;
+  height: 44px;
   padding: 0 22px;
   border-radius: 16px 16px 10px 10px;
   background: linear-gradient(135deg, rgba(255,255,255,0.98), rgba(244,248,255,0.96));
@@ -548,7 +476,7 @@ img {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-top: 14px;
+  margin-top: 12px;
 }
 
 .image-dot {
@@ -565,259 +493,136 @@ img {
   transform: scale(1.05);
 }
 
-.support-layout {
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  padding-top: 24px;
+.impact-button {
+  position: relative;
+  overflow: visible;
 }
 
-.support-main-card {
+.site-footer {
+  position: relative;
+  z-index: 5;
   width: 100%;
-  padding: 34px;
-  border-radius: 38px;
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(255, 255, 255, 0.95);
+  padding: 6px 90px 12px;
+}
+
+.site-footer-inner {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 12px 18px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.76);
+  border: 1px solid rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow-soft);
 }
 
-.support-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 22px;
-}
-
-.support-action-card {
-  min-height: 320px;
-  padding: 28px;
-  border-radius: 30px;
-  box-shadow: var(--shadow-card);
-}
-
-.like-card {
-  background: linear-gradient(180deg, #fff1f7, #ffe4f0);
-}
-
-.coffee-card {
-  background: linear-gradient(180deg, #eef8ff, #e4f1ff);
-}
-
-.support-card-head {
+.footer-inline {
   display: flex;
-  align-items: center;
-  gap: 14px;
-  margin-bottom: 14px;
-}
-
-.support-card-head h3 {
-  margin: 0;
-  font-size: 1.45rem;
-}
-
-.support-emoji {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  display: grid;
-  place-items: center;
-  background: rgba(255, 255, 255, 0.85);
-  font-size: 1.5rem;
-  box-shadow: var(--shadow-card);
-}
-
-.support-copy {
-  min-height: 72px;
-  font-weight: 500;
-}
-
-.feature-card p,
-.support-copy,
-.contact-item a,
-.contact-item span {
-  margin: 0;
-  color: var(--text-soft);
-  line-height: 1.8;
-}
-
-.like-button,
-.coffee-button {
-  width: 100%;
-  min-height: 82px;
-  margin-top: 24px;
-  border-radius: 999px;
-  display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  font-size: 1.52rem;
-  font-weight: 900;
-  letter-spacing: -0.02em;
-  box-shadow:
-    0 18px 34px rgba(72, 105, 170, 0.16),
-    inset 0 1px 0 rgba(255,255,255,0.3);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
-  position: relative;
-  overflow: visible;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.1);
-}
-
-.like-button:hover,
-.coffee-button:hover {
-  transform: translateY(-3px) scale(1.015);
-  filter: brightness(1.03);
-}
-
-.like-button {
-  color: #fff;
-  background: linear-gradient(135deg, #ff76b6 0%, #ff5ba8 45%, #ff8f6b 100%);
-}
-
-.like-button-heart {
-  font-size: 1.45rem;
-}
-
-.coffee-button {
-  color: #fff;
-  background: linear-gradient(135deg, #4ba5ff 0%, #2d7de8 50%, #7b7dff 100%);
-}
-
-.like-count-box,
-.coffee-note {
-  margin-top: 18px;
-  padding: 18px 20px;
-  border-radius: 22px;
-  background: rgba(255, 255, 255, 0.78);
-  border: 1px solid rgba(255,255,255,0.95);
-}
-
-.like-count-box {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 12px;
-  transition: 0.22s ease;
-}
-
-.like-count-box.is-hidden {
-  display: none;
-}
-
-.like-count-box strong {
-  font-size: clamp(2rem, 4vw, 3.3rem);
-  line-height: 1;
-  color: #ff5ba8;
-}
-
-.like-count-box span,
-.coffee-note {
-  font-weight: 700;
+  gap: 10px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-size: 0.95rem;
+  line-height: 1.2;
   color: var(--text-soft);
 }
 
-.support-contact {
-  margin-top: 24px;
-  padding: 24px 26px;
-  border-radius: 28px;
-  background: linear-gradient(135deg, rgba(255,255,255,0.92), rgba(248,251,255,0.92));
-  border: 1px solid rgba(90, 174, 255, 0.12);
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 18px;
-}
-
-.contact-item {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  min-width: 0;
-}
-
-.contact-label {
-  font-size: 0.92rem;
-  font-weight: 800;
+.footer-inline strong {
   color: var(--text);
+  font-weight: 900;
 }
 
-.contact-item a {
+.footer-inline span,
+.footer-inline a {
   font-weight: 700;
-  word-break: break-all;
 }
 
-.contact-item a:hover {
+.footer-inline a:hover {
   text-decoration: underline;
 }
 
-.impact-button.is-pop {
-  animation: impactPop 0.42s ease;
+.footer-divider {
+  opacity: 0.45;
+  font-weight: 600;
 }
 
-.impact-ring {
+.like-burst-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.like-burst-layer.is-active {
+  animation: screenFlash 0.9s ease-out forwards;
+}
+
+.burst-wave {
   position: absolute;
   left: 50%;
   top: 50%;
-  width: 18px;
-  height: 18px;
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
-  border: 3px solid rgba(255, 255, 255, 0.85);
+  border: 10px solid rgba(255, 170, 210, 0.95);
   transform: translate(-50%, -50%);
-  pointer-events: none;
-  animation: ringBurst 0.62s ease-out forwards;
+  box-shadow:
+    0 0 0 22px rgba(255, 120, 180, 0.12),
+    0 0 120px rgba(255, 120, 180, 0.38);
+  animation: megaWave 1.1s cubic-bezier(0.15, 0.75, 0.2, 1) forwards;
 }
 
-.impact-button.like-theme .impact-ring {
-  border-color: rgba(255, 190, 220, 0.95);
-  box-shadow: 0 0 0 8px rgba(255, 110, 170, 0.08);
-}
-
-.impact-button.coffee-theme .impact-ring {
-  border-color: rgba(190, 225, 255, 0.95);
-  box-shadow: 0 0 0 8px rgba(90, 174, 255, 0.08);
-}
-
-.impact-particle {
+.burst-glow {
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 10px;
-  height: 10px;
-  border-radius: 999px;
-  pointer-events: none;
-  transform: translate(-50%, -50%);
-  animation: particleBurst 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) forwards;
+  inset: -15%;
+  background:
+    radial-gradient(circle at center, rgba(255, 145, 196, 0.24) 0%, rgba(255, 145, 196, 0.14) 26%, rgba(255, 145, 196, 0.06) 42%, rgba(255, 145, 196, 0) 68%);
+  animation: megaGlow 1.15s ease-out forwards;
 }
 
-.impact-button.like-theme .impact-particle {
-  background: radial-gradient(circle, #fff7fb 0%, #ff78b6 55%, #ff4da0 100%);
+.screen-heart {
+  position: absolute;
+  color: rgba(255, 255, 255, 0.98);
+  text-shadow:
+    0 0 18px rgba(255, 255, 255, 0.8),
+    0 0 36px rgba(255, 91, 168, 0.38),
+    0 0 72px rgba(255, 91, 168, 0.18);
+  transform: translate(-50%, -50%) scale(0.35);
+  opacity: 0;
+  animation: giantHeartBurst 1.5s cubic-bezier(0.16, 0.74, 0.2, 1) forwards;
 }
 
-.impact-button.coffee-theme .impact-particle {
-  background: radial-gradient(circle, #f5fbff 0%, #7bc2ff 55%, #2d7de8 100%);
-}
-
-@keyframes impactPop {
-  0% { transform: scale(1); }
-  30% { transform: scale(1.08); }
-  60% { transform: scale(0.96); }
-  100% { transform: scale(1); }
-}
-
-@keyframes ringBurst {
+@keyframes megaWave {
   0% {
-    opacity: 0.95;
-    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(0.2);
   }
   100% {
     opacity: 0;
-    transform: translate(-50%, -50%) scale(5.6);
+    transform: translate(-50%, -50%) scale(90);
   }
 }
 
-@keyframes particleBurst {
+@keyframes megaGlow {
   0% {
-    opacity: 1;
-    transform: translate(-50%, -50%) translate(0, 0) scale(0.8);
+    opacity: 0.9;
+    transform: scale(0.82);
   }
-  85% {
+  100% {
+    opacity: 0;
+    transform: scale(1.18);
+  }
+}
+
+@keyframes giantHeartBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) translate(0, 0) scale(0.2) rotate(0deg);
+  }
+  10% {
     opacity: 1;
   }
   100% {
@@ -825,14 +630,28 @@ img {
     transform:
       translate(-50%, -50%)
       translate(var(--tx), var(--ty))
-      scale(0.2);
+      scale(1.2)
+      rotate(24deg);
+  }
+}
+
+@keyframes screenFlash {
+  0% {
+    background: rgba(255, 120, 180, 0.02);
+  }
+  30% {
+    background: rgba(255, 120, 180, 0.07);
+  }
+  100% {
+    background: rgba(255, 120, 180, 0);
   }
 }
 
 @media (max-width: 1200px) {
-  .page-section {
-    padding-left: 72px;
-    padding-right: 72px;
+  .page-section,
+  .site-footer {
+    padding-left: 48px;
+    padding-right: 48px;
   }
 
   .hero-title strong {
@@ -842,34 +661,27 @@ img {
   .image-frame-inner {
     min-height: 320px;
   }
+
+  #installBtn {
+    flex-basis: 180px;
+  }
+
+  #likeButton {
+    min-width: 200px;
+  }
 }
 
 @media (max-width: 980px) {
-  .topbar {
-    height: auto;
-    padding: 16px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-  }
-
-  .topnav {
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .page-shell {
-    padding-top: 120px;
-  }
-
-  .page-section {
-    min-height: auto;
-    padding: 26px 24px 70px;
+  .page-section,
+  .site-footer {
+    padding-left: 20px;
+    padding-right: 20px;
   }
 
   .home-layout {
     flex-direction: column;
     min-height: auto;
+    gap: 22px;
   }
 
   .hero-left,
@@ -877,21 +689,17 @@ img {
     width: 100%;
   }
 
-  .support-grid,
-  .support-contact {
-    grid-template-columns: 1fr;
-  }
-
-  .support-main-card {
-    padding: 24px;
-  }
-
   .hero-space {
-    height: 28px;
+    height: 20px;
+  }
+
+  .hero-actions {
+    flex-wrap: wrap;
+    gap: 12px;
   }
 
   .hero-image-wrap {
-    padding: 18px 16px 16px;
+    padding: 16px 14px 14px;
   }
 
   .image-panel-tabs {
@@ -943,16 +751,20 @@ img {
     right: 8px;
   }
 
-  .like-button,
-  .coffee-button {
-    min-height: 74px;
-    font-size: 1.22rem;
+  .big-action {
+    height: 70px;
+    font-size: 1.1rem;
+    padding: 0 22px;
   }
 
-  .big-action {
-    width: 100%;
+  #installBtn,
+  #likeButton {
+    flex: 1 1 220px;
     min-width: 0;
-    min-height: 72px;
-    font-size: 1.18rem;
+  }
+
+  .footer-inline {
+    justify-content: flex-start;
+    font-size: 0.88rem;
   }
 }
