@@ -21,23 +21,9 @@
   <div class="bg-deco bg-deco-2"></div>
   <div class="bg-deco bg-deco-3"></div>
 
-  <header class="topbar">
-    <a href="#home" class="brand" id="brandHome">
-      <span class="brand-mark">K</span>
-      <span class="brand-text">
-        <strong>KaironKit</strong>
-        <small>K-MemoKit Official</small>
-      </span>
-    </a>
-
-    <nav class="topnav">
-      <button class="nav-chip active" data-target="home">HOME</button>
-      <button class="nav-chip" data-target="support">SUPPORT</button>
-    </nav>
-  </header>
+  <header class="topbar" aria-hidden="true"></header>
 
   <main class="page-shell">
-    <!-- HOME -->
     <section class="page-section home-section" id="home">
       <div class="section-inner home-layout">
         <div class="hero-left">
@@ -56,8 +42,14 @@
           </p>
 
           <div class="hero-actions hero-actions-large">
-            <button class="cute-btn primary big-action" id="installBtn">무료설치</button>
-            <button class="cute-btn secondary big-action" id="supportBtn">응원하기</button>
+            <button class="cute-btn primary big-action" id="installBtn" type="button">
+              무료설치
+            </button>
+
+            <button class="cute-btn like-action big-action impact-button" id="likeButton" type="button">
+              <span class="like-button-heart">♥</span>
+              <span class="like-button-text" id="likeButtonText">좋아요</span>
+            </button>
           </div>
         </div>
 
@@ -71,7 +63,7 @@
             </div>
 
             <div class="image-carousel" id="imageCarousel">
-              <button class="image-arrow image-arrow-left" id="imagePrevBtn" aria-label="이전 이미지">
+              <button class="image-arrow image-arrow-left" id="imagePrevBtn" aria-label="이전 이미지" type="button">
                 <span>‹</span>
               </button>
 
@@ -109,7 +101,7 @@
                 </div>
               </div>
 
-              <button class="image-arrow image-arrow-right" id="imageNextBtn" aria-label="다음 이미지">
+              <button class="image-arrow image-arrow-right" id="imageNextBtn" aria-label="다음 이미지" type="button">
                 <span>›</span>
               </button>
             </div>
@@ -126,74 +118,29 @@
         </div>
       </div>
     </section>
-
-    <!-- SUPPORT -->
-    <section class="page-section support-section" id="support">
-      <div class="section-inner support-layout">
-        <div class="support-main-card">
-          <div class="support-grid">
-            <section class="support-action-card like-card">
-              <div class="support-card-head">
-                <span class="support-emoji">💗</span>
-                <h3>좋아요로 응원하기</h3>
-              </div>
-
-              <p class="support-copy">
-                마음에 드셨다면 한 번 눌러주세요.
-                응원 수가 쌓일수록 더 힘내서 만들게요.
-              </p>
-
-              <button class="like-button impact-button" id="likeButton" type="button">
-                <span class="like-button-heart">♥</span>
-                <span>좋아요</span>
-              </button>
-
-              <div class="like-count-box is-hidden" id="likeCountBox">
-                <strong id="likeCount"></strong>
-                <span>누적 좋아요</span>
-              </div>
-            </section>
-
-            <section class="support-action-card coffee-card">
-              <div class="support-card-head">
-                <span class="support-emoji">☕</span>
-                <h3>개발자에게 커피 선물하기</h3>
-              </div>
-
-              <p class="support-copy">
-                작게 후원하고 싶을 때 연결할 수 있도록
-                준비해두는 자리입니다.
-              </p>
-
-              <a href="#" class="coffee-button impact-button" id="coffeeButton">☕ 커피 선물하기</a>
-
-              <div class="coffee-note">
-                후원 링크는 추후 연결 예정입니다.
-              </div>
-            </section>
-          </div>
-
-          <div class="support-contact">
-            <div class="contact-item">
-              <span class="contact-label">문의 이메일</span>
-              <a href="mailto:kaironkit@gmail.com">kaironkit@gmail.com</a>
-            </div>
-
-            <div class="contact-item">
-              <span class="contact-label">블로그</span>
-              <a
-                href="https://blog.naver.com/iron_writer"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                https://blog.naver.com/iron_writer
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
   </main>
+
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <div class="footer-inline">
+        <strong>KaironKit</strong>
+        <span class="footer-divider">|</span>
+        <span>K-MemoKit Official</span>
+        <span class="footer-divider">|</span>
+        <a href="mailto:kaironkit@gmail.com">kaironkit@gmail.com</a>
+        <span class="footer-divider">|</span>
+        <a
+          href="https://blog.naver.com/iron_writer"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          블로그 바로가기
+        </a>
+      </div>
+    </div>
+  </footer>
+
+  <div class="like-burst-layer" id="likeBurstLayer" aria-hidden="true"></div>
 
   <script src="main.js"></script>
 </body>
