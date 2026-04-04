@@ -1,15 +1,7 @@
-const navChips = document.querySelectorAll(".nav-chip");
-const brandHome = document.getElementById("brandHome");
-const supportBtn = document.getElementById("supportBtn");
-
 const likeButton = document.getElementById("likeButton");
-const likeCount = document.getElementById("likeCount");
-const likeCountBox = document.getElementById("likeCountBox");
-const coffeeButton = document.getElementById("coffeeButton");
+const likeButtonText = document.getElementById("likeButtonText");
 const installBtn = document.getElementById("installBtn");
-
-const homeSection = document.getElementById("home");
-const supportSection = document.getElementById("support");
+const likeBurstLayer = document.getElementById("likeBurstLayer");
 
 const imageTrack = document.getElementById("imageTrack");
 const imageViewport = document.getElementById("imageViewport");
@@ -20,7 +12,6 @@ const imageCaption = document.getElementById("imageCaption");
 
 const appTitle = document.getElementById("appTitle");
 const appDesc = document.getElementById("appDesc");
-const appPoints = document.getElementById("appPoints");
 
 const imageSlides = document.querySelectorAll(".image-slide");
 const totalImages = imageSlides.length;
@@ -31,13 +22,11 @@ let autoSlideTimer = null;
 let pointerStartX = 0;
 let pointerStartY = 0;
 let isPointerDown = false;
-let isDraggingImage = false;
 
 const appData = {
   title: "K-MemoKit",
   desc:
-    "메모, 일정, 즐겨찾기, 계산기를 한곳에 모아 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다. 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는 나만의 작은 작업 키트를 목표로 만들었습니다.",
-  points: []
+    "메모, 일정, 즐겨찾기, 계산기를 한곳에 모아 쉽고 빠르게 사용할 수 있는 데스크톱 프로그램입니다. 딱딱한 도구가 아니라, 매일 편하게 꺼내 쓰는 나만의 작은 작업 키트를 목표로 만들었습니다."
 };
 
 const slideMeta = [
@@ -54,72 +43,12 @@ const COUNTER_KEY = "support-like-count";
 const LIMIT_ONE_LIKE_PER_BROWSER = false;
 const LIKE_CLICKED_STORAGE_KEY = "kaironkit_like_clicked";
 
-const COUNTER_HIT_URL = `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}/up`;
+const COUNTER_HIT_URL =
+  `https://api.counterapi.dev/v1/${encodeURIComponent(COUNTER_NAMESPACE)}/${encodeURIComponent(COUNTER_KEY)}/up`;
 
 function renderAppInfo() {
   if (appTitle) appTitle.textContent = appData.title;
   if (appDesc) appDesc.textContent = appData.desc;
-
-  if (appPoints) {
-    appPoints.innerHTML = "";
-    appData.points.forEach((point) => {
-      const span = document.createElement("span");
-      span.textContent = point;
-      appPoints.appendChild(span);
-    });
-  }
-}
-
-function scrollToSection(section) {
-  if (!section) return;
-
-  section.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-}
-
-function setActiveNavBySection() {
-  const sections = [
-    { key: "home", el: homeSection },
-    { key: "support", el: supportSection }
-  ];
-
-  const headerOffset = 140;
-  let activeKey = "home";
-
-  sections.forEach((section) => {
-    if (!section.el) return;
-    const top = section.el.getBoundingClientRect().top;
-    if (top - headerOffset <= 0) {
-      activeKey = section.key;
-    }
-  });
-
-  navChips.forEach((chip) => {
-    chip.classList.toggle("active", chip.dataset.target === activeKey);
-  });
-}
-
-navChips.forEach((chip) => {
-  chip.addEventListener("click", () => {
-    const targetId = chip.dataset.target;
-    const target = document.getElementById(targetId);
-    scrollToSection(target);
-  });
-});
-
-if (brandHome) {
-  brandHome.addEventListener("click", (e) => {
-    e.preventDefault();
-    scrollToSection(homeSection);
-  });
-}
-
-if (supportBtn) {
-  supportBtn.addEventListener("click", () => {
-    scrollToSection(supportSection);
-  });
 }
 
 function clampImageIndex(index) {
@@ -163,12 +92,8 @@ function goPrevImage() {
   goToImage(currentImageIndex - 1);
 }
 
-function restartAutoSlide() {
-  stopAutoSlide();
-  startAutoSlide();
-}
-
 function startAutoSlide() {
+  stopAutoSlide();
   autoSlideTimer = window.setInterval(() => {
     goNextImage();
   }, 3200);
@@ -179,6 +104,11 @@ function stopAutoSlide() {
     clearInterval(autoSlideTimer);
     autoSlideTimer = null;
   }
+}
+
+function restartAutoSlide() {
+  stopAutoSlide();
+  startAutoSlide();
 }
 
 if (imagePrevBtn) {
@@ -206,21 +136,9 @@ imageDots.forEach((dot) => {
 
 function pointerDown(clientX, clientY) {
   isPointerDown = true;
-  isDraggingImage = false;
   pointerStartX = clientX;
   pointerStartY = clientY;
   stopAutoSlide();
-}
-
-function pointerMove(clientX, clientY) {
-  if (!isPointerDown) return;
-
-  const diffX = clientX - pointerStartX;
-  const diffY = clientY - pointerStartY;
-
-  if (Math.abs(diffX) > Math.abs(diffY) && Math.abs(diffX) > 8) {
-    isDraggingImage = true;
-  }
 }
 
 function pointerUp(clientX, clientY) {
@@ -239,17 +157,12 @@ function pointerUp(clientX, clientY) {
   }
 
   isPointerDown = false;
-  isDraggingImage = false;
   restartAutoSlide();
 }
 
 if (imageViewport) {
   imageViewport.addEventListener("mousedown", (e) => {
     pointerDown(e.clientX, e.clientY);
-  });
-
-  imageViewport.addEventListener("mousemove", (e) => {
-    pointerMove(e.clientX, e.clientY);
   });
 
   imageViewport.addEventListener("mouseup", (e) => {
@@ -271,15 +184,6 @@ if (imageViewport) {
   );
 
   imageViewport.addEventListener(
-    "touchmove",
-    (e) => {
-      if (!e.touches.length) return;
-      pointerMove(e.touches[0].clientX, e.touches[0].clientY);
-    },
-    { passive: true }
-  );
-
-  imageViewport.addEventListener(
     "touchend",
     (e) => {
       if (!e.changedTouches.length) return;
@@ -291,9 +195,8 @@ if (imageViewport) {
 
 function setLikeButtonDisabled(disabled) {
   if (!likeButton) return;
-
   likeButton.disabled = disabled;
-  likeButton.style.opacity = disabled ? "0.82" : "1";
+  likeButton.style.opacity = disabled ? "0.86" : "1";
   likeButton.style.cursor = disabled ? "default" : "pointer";
 }
 
@@ -303,20 +206,9 @@ function formatCount(value) {
   return num.toLocaleString("ko-KR");
 }
 
-function hideLikeCountBox() {
-  if (!likeCountBox) return;
-  likeCountBox.classList.add("is-hidden");
-}
-
-function showLikeCountBox() {
-  if (!likeCountBox) return;
-  likeCountBox.classList.remove("is-hidden");
-}
-
-function renderLikeCount(value) {
-  if (!likeCount) return;
-  likeCount.textContent = formatCount(value);
-  showLikeCountBox();
+function renderLikeButtonText(value) {
+  if (!likeButtonText) return;
+  likeButtonText.textContent = `좋아요 ${formatCount(value)}`;
 }
 
 async function fetchJson(url, options = {}) {
@@ -327,10 +219,6 @@ async function fetchJson(url, options = {}) {
   }
 
   return await response.json();
-}
-
-async function loadGlobalLikeCount() {
-  hideLikeCountBox();
 }
 
 function hasAlreadyLikedInThisBrowser() {
@@ -352,46 +240,54 @@ function syncLikeButtonState() {
   setLikeButtonDisabled(hasAlreadyLikedInThisBrowser());
 }
 
-function createImpact(button, theme = "like") {
-  if (!button) return;
+function createFullscreenLikeImpact() {
+  if (!likeBurstLayer) return;
 
-  button.classList.remove("is-pop");
-  void button.offsetWidth;
-  button.classList.add("is-pop");
+  likeBurstLayer.innerHTML = "";
+  likeBurstLayer.classList.remove("is-active");
+  void likeBurstLayer.offsetWidth;
+  likeBurstLayer.classList.add("is-active");
 
-  button.classList.remove("like-theme", "coffee-theme");
-  button.classList.add(theme === "coffee" ? "coffee-theme" : "like-theme");
+  const wave = document.createElement("span");
+  wave.className = "burst-wave";
+  likeBurstLayer.appendChild(wave);
 
-  const ring = document.createElement("span");
-  ring.className = "impact-ring";
-  button.appendChild(ring);
+  const glow = document.createElement("span");
+  glow.className = "burst-glow";
+  likeBurstLayer.appendChild(glow);
 
-  const particleCount = 14;
-  for (let i = 0; i < particleCount; i++) {
-    const particle = document.createElement("span");
-    particle.className = "impact-particle";
+  const heartCount = 40;
 
-    const angle = (Math.PI * 2 * i) / particleCount;
-    const distance = 70 + Math.random() * 36;
-    const x = Math.cos(angle) * distance;
-    const y = Math.sin(angle) * distance;
+  for (let i = 0; i < heartCount; i++) {
+    const heart = document.createElement("span");
+    heart.className = "screen-heart";
+    heart.textContent = "♥";
 
-    particle.style.setProperty("--tx", `${x}px`);
-    particle.style.setProperty("--ty", `${y}px`);
-    particle.style.width = `${8 + Math.random() * 8}px`;
-    particle.style.height = particle.style.width;
+    const angle = (Math.PI * 2 * i) / heartCount;
+    const distanceX = 220 + Math.random() * (window.innerWidth * 0.45);
+    const distanceY = 180 + Math.random() * (window.innerHeight * 0.42);
+    const tx = Math.cos(angle) * distanceX;
+    const ty = Math.sin(angle) * distanceY;
 
-    button.appendChild(particle);
+    heart.style.setProperty("--tx", `${tx}px`);
+    heart.style.setProperty("--ty", `${ty}px`);
+    heart.style.left = `${50 + (Math.random() * 12 - 6)}%`;
+    heart.style.top = `${50 + (Math.random() * 12 - 6)}%`;
+    heart.style.fontSize = `${32 + Math.random() * 68}px`;
+    heart.style.animationDelay = `${Math.random() * 0.12}s`;
+
+    likeBurstLayer.appendChild(heart);
 
     setTimeout(() => {
-      particle.remove();
-    }, 950);
+      heart.remove();
+    }, 1800);
   }
 
   setTimeout(() => {
-    ring.remove();
-    button.classList.remove("is-pop");
-  }, 700);
+    likeBurstLayer.classList.remove("is-active");
+    wave.remove();
+    glow.remove();
+  }, 1500);
 }
 
 if (likeButton) {
@@ -410,28 +306,16 @@ if (likeButton) {
       });
 
       const value = data?.data?.up_count ?? data?.value ?? data?.count ?? 0;
-      renderLikeCount(value);
+
+      renderLikeButtonText(value);
+      createFullscreenLikeImpact();
       markLikedInThisBrowser();
-      createImpact(likeButton, "like");
     } catch (error) {
       console.error("좋아요 증가 실패:", error);
       alert("좋아요 처리 중 오류가 발생했어요. 잠시 후 다시 시도해주세요.");
-      setLikeButtonDisabled(false);
-      return;
     }
 
     syncLikeButtonState();
-  });
-}
-
-if (coffeeButton) {
-  coffeeButton.addEventListener("click", (e) => {
-    e.preventDefault();
-    createImpact(coffeeButton, "coffee");
-
-    setTimeout(() => {
-      alert("커피 후원 링크는 추후 연결 예정입니다.");
-    }, 240);
   });
 }
 
@@ -441,14 +325,9 @@ if (installBtn) {
   });
 }
 
-window.addEventListener("scroll", setActiveNavBySection);
-
-window.addEventListener("load", async () => {
+window.addEventListener("load", () => {
   renderAppInfo();
   updateImageUI();
-  setActiveNavBySection();
   startAutoSlide();
-
   syncLikeButtonState();
-  await loadGlobalLikeCount();
 });
