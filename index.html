@@ -8,12 +8,6 @@
     name="description"
     content="KaironKit의 메인 프로그램 K-MemoKit을 소개하는 홈페이지"
   />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link
-    href="https://fonts.googleapis.com/css2?family=Pretendard:wght@400;500;600;700;800;900&display=swap"
-    rel="stylesheet"
-  />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -67,13 +61,21 @@
                 <span>‹</span>
               </button>
 
-              <div class="image-viewport" id="imageViewport">
+              <div
+                class="image-viewport"
+                id="imageViewport"
+                role="button"
+                tabindex="0"
+                aria-label="이미지 슬라이드. 클릭하면 재생 또는 일시정지됩니다."
+              >
                 <div class="image-frame-box">
                   <div class="image-frame-inner">
                     <div class="image-shine" aria-hidden="true"></div>
 
+                    <div class="slide-toggle-impact" id="slideToggleImpact" aria-hidden="true"></div>
+
                     <div class="image-track" id="imageTrack">
-                      <div class="image-slide">
+                      <div class="image-slide image-slide-full">
                         <img src="img1.png" alt="K-MemoKit 구성 이미지 1" class="hero-image" />
                       </div>
                       <div class="image-slide">
@@ -93,9 +95,9 @@
                       </div>
                     </div>
 
-                    <div class="image-caption" id="imageCaption">
-                      <strong>소개</strong>
-                      <span>K-MemoKit의 전체 구성을 한눈에 볼 수 있어요.</span>
+                    <div class="image-caption is-hidden" id="imageCaption" aria-hidden="true">
+                      <strong></strong>
+                      <span></span>
                     </div>
                   </div>
                 </div>
@@ -125,16 +127,14 @@
       <div class="footer-inline">
         <strong>KaironKit</strong>
         <span class="footer-divider">|</span>
-        <span>K-MemoKit Official</span>
-        <span class="footer-divider">|</span>
-        <a href="mailto:kaironkit@gmail.com">kaironkit@gmail.com</a>
+        <a href="mailto:kaironkit@gmail.com">문의</a>
         <span class="footer-divider">|</span>
         <a
           href="https://blog.naver.com/iron_writer"
           target="_blank"
           rel="noopener noreferrer"
         >
-          블로그 바로가기
+          블로그
         </a>
       </div>
     </div>
